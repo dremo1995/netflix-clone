@@ -22,7 +22,6 @@ const Sidebar = ({ setMobileOpen }) => {
   const { data, isFetching } = useGetGenresQuery();
   const dispatch = useDispatch();
   const { genreOrCategory } = useSelector((state) => state.currentGenreOrCategory);
-  console.log(genreOrCategory);
 
   return (
     <>
