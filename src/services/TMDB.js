@@ -35,10 +35,21 @@ export const tmdbApi = createApi({
         return `movie/popular?page=${page}&api_key=${tmdbApiKey}`;
       },
     }),
+
+    //* Get individual movie
+    getMovie: builder.query({
+      query: (id) => `movie/${id}?append_to_response=videos,credits&api_key=${tmdbApiKey}`,
+    }),
+    //* Get user specific movies
+    getRecommendations: builder.query({
+      query: ({ movieId, list }) => `movie/${movieId}/${list}?api_key=${tmdbApiKey}`,
+    }),
   }),
 });
 
 export const {
   useGetMoviesQuery,
   useGetGenresQuery,
+  useGetMovieQuery,
+  useGetRecommendationsQuery,
 } = tmdbApi;
