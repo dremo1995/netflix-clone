@@ -4,12 +4,15 @@ import { useSelector } from 'react-redux';
 import { selectGenreOrCategory } from '../../features/currentGenreOrCategory';
 
 import { useGetMoviesQuery } from '../../services/TMDB';
-import MovieList from '../MovieList/MovieList';
+import { MovieList, Pagination } from '..';
 
 const Movies = () => {
   const [page, setPage] = useState(1);
   const { genreOrCategory, searchQuery } = useSelector((state) => state.currentGenreOrCategory);
   const { data, error, isFetching } = useGetMoviesQuery({ genreOrCategory, page, searchQuery });
+  const lg = useMediaQuery((theme) => theme.breakpoints.only('lg'));
+  const numOfMovies = lg ? 16 : 18;
+
   if (isFetching) {
     return (
       <Box sx={{
@@ -34,7 +37,10 @@ const Movies = () => {
   } if (error) return 'An error occurred';
 
   return (
-    <div><MovieList movies={data} /></div>
+    <div>
+      <MovieList movies={data} numberOfMovies={numOfMovies} />
+      <Pagination currentPage={page} setPage={setPage} totalPages={data.total_pages} />
+    </div>
   );
 };
 

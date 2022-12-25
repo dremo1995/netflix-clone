@@ -1,17 +1,57 @@
 import React, { useEffect } from 'react';
+
 import { useSelector } from 'react-redux';
-import { Typography, Button, Box } from '@mui/material';
+import { Typography, Button, Box, CircularProgress } from '@mui/material';
 import { ExitToApp } from '@mui/icons-material';
 import { userSelector } from '../../features/auth';
+import { useGetListQuery } from '../../services/TMDB';
+import { RatedCards } from '..';
 
 const Profile = () => {
   const { user } = useSelector(userSelector);
-  const favoriteMovies = [];
+  const { data: favoriteMovies, isFetching: isFetchingFavoriteMovies, error, refetch: refetchFavorites } = useGetListQuery({
+    listName: 'favorite/movies',
+    accountId: user.id,
+    sessionId: localStorage.getItem('session_id'),
+    page: 1 });
+  const { data: watchlistMovies, isFetching: isFetchingWatchlistMovies, refetch: refetchWatchlisted } = useGetListQuery({
+    listName: 'watchlist/movies',
+    accountId: user.id,
+    sessionId: localStorage.getItem('session_id'),
+    page: 1 });
+
+  useEffect(() => {
+    refetchFavorites();
+    refetchWatchlisted();
+  }, []);
 
   const logout = () => {
     localStorage.clear();
     window.location.href = '/';
   };
+
+  if (isFetchingWatchlistMovies) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center">
+        <CircularProgress size="8rem" />
+      </Box>
+    );
+  }
+  if (isFetchingFavoriteMovies) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center">
+        <CircularProgress size="8rem" />
+      </Box>
+    );
+  }
+
+  if (error) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center">
+        <Link to="/">Something has gone wrong. Please go back</Link>
+      </Box>
+    );
+  }
 
   return (
     <Box>
@@ -21,11 +61,12 @@ const Profile = () => {
           Logout &nbsp; <ExitToApp />
         </Button>
       </Box>
-      {!favoriteMovies.length
+      {!favoriteMovies?.results?.length && !watchlistMovies?.results?.length
         ? <Typography variant="h5">Add movies to favorites to see them here!</Typography>
         : (
           <Box>
-            Favorite Movies
+            <RatedCards title="Favorite Movies" data={favoriteMovies} />
+            <RatedCards title="Watchlist" data={watchlistMovies} />
           </Box>
         )}
     </Box>

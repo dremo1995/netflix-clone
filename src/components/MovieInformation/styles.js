@@ -5,19 +5,19 @@ export default makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'space-around',
     margin: '10px 0 !important',
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       flexDirection: 'column',
       flexWrap: 'wrap',
     },
   },
   poster: {
-    borderRadius: '10px',
+    borderRadius: '20px',
     boxShadow: '0.5em 1em 1em rgb(64, 64, 70) ',
     width: '80%',
     [theme.breakpoints.down('md')]: {
       margin: '0 auto',
       width: '50%',
-      height: '350px',
+
     },
     [theme.breakpoints.down('sm')]: {
       margin: '0 auto',
@@ -58,9 +58,11 @@ export default makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'center',
     width: '100%',
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('xl')]: {
       flexDirection: 'column',
+      alignItems: 'center',
     },
+
   },
   modal: {
     display: 'flex',
