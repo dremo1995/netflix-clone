@@ -74,7 +74,7 @@ const Actors = () => {
             <Grid item xs={12} sm={6} className={classes.buttonsContainer}>
               <ButtonGroup size="medium" variant="outlined">
                 <Button endIcon={<ArrowBack />} sx={{ borderColor: 'primary.main' }}>
-                  <Typography style={{ textDecoration: 'none' }} component={Link} to="/" color="inherit" variant="subtitle2">Back</Typography>
+                  <Typography style={{ textDecoration: 'none' }} component={Link} onClick={() => history.goBack()} color="inherit" variant="subtitle2">Back</Typography>
                 </Button>
               </ButtonGroup>
             </Grid>
